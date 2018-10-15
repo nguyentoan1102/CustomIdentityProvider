@@ -48,8 +48,7 @@ namespace CustomIdentityProviderExample.CustomProvider
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (userId == null) throw new ArgumentNullException(nameof(userId));
-            Guid idGuid;
-            if (!Guid.TryParse(userId, out idGuid))
+            if (!Guid.TryParse(userId, out Guid idGuid))
             {
                 throw new ArgumentException("Not a valid Guid id", nameof(userId));
             }
@@ -106,9 +105,7 @@ namespace CustomIdentityProviderExample.CustomProvider
         {
             cancellationToken.ThrowIfCancellationRequested();
             if (user == null) throw new ArgumentNullException(nameof(user));
-            if (normalizedName == null) throw new ArgumentNullException(nameof(normalizedName));
-
-            user.NormalizedUserName = normalizedName;
+            user.NormalizedUserName = normalizedName ?? throw new ArgumentNullException(nameof(normalizedName));
             return Task.FromResult<object>(null);
         }
 
